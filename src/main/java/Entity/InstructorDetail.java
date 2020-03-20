@@ -7,14 +7,14 @@ import javax.persistence.*;
 @Table(name = "InstructorDetail")
 public class InstructorDetail {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "hobby")
     private String hobby;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "cid")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinColumn(name = "Insturctor_id")
     private Instructor instructor;
 
 

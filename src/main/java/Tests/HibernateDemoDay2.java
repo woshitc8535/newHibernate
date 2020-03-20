@@ -30,14 +30,20 @@ public class HibernateDemoDay2 {
             instructor.setLastName("Yang");
             instructor.setEmail("Yang@itlize.com");
 
-            Course course = new Course();
-            course.setName("Spring");
+            Course course1 = new Course();
+            course1.setName("Spring");
+            Course course2 = new Course();
+            course2.setName("Hibernate");
 
             InstructorDetail instructorDetail = new InstructorDetail();
             instructorDetail.setHobby("Basketball");
 
-            instructor.getCourses().add(course);
-            course.setInstructor(instructor);
+
+
+            instructor.getCourses().add(course1);
+            instructor.getCourses().add(course2);
+            course1.setInstructor(instructor);
+            course2.setInstructor(instructor);
             instructor.setInstructorDetail(instructorDetail);
             instructorDetail.setInstructor(instructor);
 
@@ -48,6 +54,7 @@ public class HibernateDemoDay2 {
         }catch (Exception e) {
 
         }finally {
+            session.close();
             factory.close();
         }
 
@@ -65,14 +72,20 @@ public class HibernateDemoDay2 {
         try {
             Transaction tx = session.beginTransaction();
 
-            Instructor instructor = (Instructor) session.get(Instructor.class, 3);
-            session.delete(instructor);
+//            Instructor instructor = (Instructor) session.get(Instructor.class, 1);
+//            session.delete(instructor);
+
+            InstructorDetail instructorDetail = session.get(InstructorDetail.class, 1);
+
+            instructorDetail.getInstructor().setInstructorDetail(null);
+            session.delete(instructorDetail);
 
 
             tx.commit();
         }catch (Exception e) {
 
         }finally {
+            session.close();
             factory.close();
         }
 
